@@ -8,14 +8,15 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 class StudentController {
     public function dashboard() {
         session_start();
-        return $this->json([
-            'message' => 'Welcome to Student Dashboard',
-            'user' => [
-                'id' => $_SESSION['user_id'],
-                'name' => $_SESSION['name'],
-                'role' => $_SESSION['role']
-            ]
-        ]);
+        
+        // Check if user is authenticated and is a student
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'student') {
+            header('Location: /login');
+            exit;
+        }
+        
+        // Load student dashboard view
+        include APP_DIR . 'views/student_dashboard.php';
     }
 
     public function profile() {

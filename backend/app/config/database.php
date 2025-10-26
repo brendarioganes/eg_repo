@@ -63,7 +63,7 @@ $database['main'] = array(
     'port'		=> '3306',
     'username'	=> 'root',
     'password'	=> '',
-    'database'	=> 'counseling_app',
+    'database'	=> 'eguidance',
     'charset'	=> 'utf8mb4',
     'dbprefix'	=> '',
     // Optional for SQLite
@@ -72,7 +72,7 @@ $database['main'] = array(
 
 // Database constants for direct PDO access
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'counseling_app');
+define('DB_NAME', 'eguidance');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 

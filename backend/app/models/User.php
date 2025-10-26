@@ -18,15 +18,33 @@ class User {
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare(
-            "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)"
-        );
-        return $stmt->execute([
-            $data['name'],
-            $data['email'],
-            password_hash($data['password'], PASSWORD_BCRYPT),
-            $data['role']
-        ]);
+        try {
+            $stmt = $this->db->prepare(
+                "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)"
+            );
+            
+            $result = $stmt->execute([
+                $data['name'],
+                $data['email'],
+                password_hash($data['password'], PASSWORD_BCRYPT),
+                $data['role']
+            ]);
+            
+            if ($result) {
+                error_log("User created successfully: " . $data['email']);
+                return true;
+            } else {
+                error_log("Failed to create user: " . json_encode($stmt->errorInfo()));
+                return false;
+            }
+            
+        } catch (PDOException $e) {
+            error_log("Database error in User::create: " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("General error in User::create: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function update($id, $data) {

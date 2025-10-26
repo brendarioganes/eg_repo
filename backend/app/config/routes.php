@@ -46,6 +46,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 // Include required files
 require_once APP_DIR . 'core/ORM.php';
 require_once APP_DIR . 'models/User.php';
+require_once APP_DIR . 'models/Otp.php';
 require_once APP_DIR . 'controllers/AuthController.php';
 require_once APP_DIR . 'controllers/StudentController.php';
 require_once APP_DIR . 'controllers/CounselorController.php';
@@ -54,16 +55,21 @@ require_once APP_DIR . 'middleware/RoleMiddleware.php';
 
 // Public routes
 $router->get('/', 'Welcome::index');
+$router->get('/login', 'AuthController::showLogin');
 $router->post('/api/register', 'AuthController::register');
 $router->post('/api/login', 'AuthController::login');
+$router->post('/api/verify-otp', 'AuthController::verifyOtp');
+$router->get('/api/check-auth', 'AuthController::checkAuth');
 
 // Protected routes
 $router->post('/api/logout', 'AuthController::logout');
 
 // Student routes
+$router->get('/student-dashboard', 'StudentController::dashboard');
 $router->get('/api/student/dashboard', 'StudentController::dashboard');
 $router->get('/api/student/profile', 'StudentController::profile');
 
 // Counselor routes
+$router->get('/counselor-dashboard', 'CounselorController::dashboard');
 $router->get('/api/counselor/dashboard', 'CounselorController::dashboard');
 $router->get('/api/counselor/profile', 'CounselorController::profile');
